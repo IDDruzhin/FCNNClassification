@@ -14,7 +14,6 @@ enum ACTIVATION_FUNCTION_TYPE
 } 	ACTIVATION_FUNCTION_TYPE;
 
 public:
-	FCNeuralNet();
 	FCNeuralNet(vector<int> neurons_count, vector<int> activation_functions, int epochs_count, double learning_rate);
 	~FCNeuralNet();
 	double Fit(Dataset* dataset);

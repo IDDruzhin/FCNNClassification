@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "FCNeuralNet.h"
 
-FCNeuralNet::FCNeuralNet()
-{
-}
-
 FCNeuralNet::FCNeuralNet(vector<int> neurons_count, vector<int> activation_functions, int epochs_count, double learning_rate)
 {
 	srand(777);
@@ -65,16 +61,13 @@ double FCNeuralNet::GetTestAccuracy()
 
 int FCNeuralNet::Predict(vector<ubyte> sample)
 {
+	if (sample.size() != neurons_[0].size())
+	{
+		return -1;
+	}
 	SingleSampleCalculation(sample);
 	auto output_pos = max_element(neurons_.back().begin(), neurons_.back().end());
 	return distance(neurons_.back().begin(), output_pos);
-	/*
-	SingleSampleCalculation(sample);
-	for (int i = 0; i < neurons_.back().size(); i++)
-	{
-		cout << i << "/" << neurons_.back()[i] << " ";
-	}
-	*/
 }
 
 void FCNeuralNet::InitWeights()
