@@ -8,7 +8,6 @@ FCNeuralNet::FCNeuralNet()
 FCNeuralNet::FCNeuralNet(vector<int> neurons_count, vector<int> activation_functions, int epochs_count, double learning_rate)
 {
 	srand(777);
-	//srand(123);
 	epochs_count_ = epochs_count;
 	learning_rate_ = learning_rate;
 	neurons_.resize(neurons_count.size());
@@ -39,18 +38,6 @@ FCNeuralNet::FCNeuralNet(vector<int> neurons_count, vector<int> activation_funct
 		free_weights_[i].resize(neurons_[i+1].size());
 		deltas_[i].resize(neurons_[i+1].size());
 	}
-	/*
-	input_count_ = input_count;
-	hidden_count_ = hidden_count+1;
-	output_count_ = output_count;
-	input_neurons_.resize(input_count_);
-	input_neurons_[0] = 1.0;
-	hidden_neurons_.resize(hidden_count_);
-	hidden_neurons_[0] = 1.0;
-	output_neurons_.resize(output_count_);
-	first_weights_.resize(input_count_*(hidden_count_-1));
-	second_weights_.resize(hidden_count_*output_count_);
-	*/
 	InitWeights();
 }
 
@@ -90,27 +77,6 @@ void FCNeuralNet::InitWeights()
 			free_weights_[i][j] = -0.5 + (rand() % 1000) / 1000.0;
 		}
 	}
-	/*
-	for (auto &weight : weights_)
-	{
-		//weight = -0.1 + 0.2*((double)rand() / RAND_MAX);
-		//weight = -0.25 + (rand() % 50) / 100.0;
-		//weight = -0.1 + (rand() % 10) / 100.0;
-		//weight = 0.0;
-		weight = -0.5 + (rand() % 1000) / 1000.0;
-		//weight = (rand() % 100) / 1000.0;
-	}
-	for (auto &weight : second_weights_)
-	{
-		//weight = -0.1 + 0.2*((double)rand() / RAND_MAX);
-		//weight = -0.25 + (rand() % 50) / 100.0;
-		//weight = -0.5 + (rand() % 100) / 100.0;
-		//weight = -0.1 + (rand() % 10) / 100.0;
-		//weight = 0.0;
-		//weight = (rand() % 100) / 1000.0;
-		weight = -0.5 + (rand() % 1000) / 1000.0;
-	}
-	*/
 }
 
 void FCNeuralNet::SoftMax()
@@ -147,36 +113,6 @@ void FCNeuralNet::HyperbolicTangent(int layer)
 
 void FCNeuralNet::Calculate()
 {
-	/*
-	#pragma omp parallel for
-	for (int i = 1; i < hidden_count_; i++)
-	{
-		hidden_neurons_[i] = 0.0;
-		for (int j = 0; j < input_count_; j++)
-		{
-			hidden_neurons_[i] += input_neurons_[j] * first_weights_[(i-1)*input_count_ + j];
-		}
-	}
-	switch (activation_function_)
-	{
-	case SIGMOID:
-		Sigmoid();
-		break;
-	case HYPERBOLIC_TANGENT:
-		HyperbolicTangent();
-		break;
-	}
-	#pragma omp parallel for
-	for (int i = 0; i < output_count_; i++)
-	{
-		output_neurons_[i] = 0.0;
-		for (int j = 0; j < hidden_count_; j++)
-		{
-			output_neurons_[i] += hidden_neurons_[j] * second_weights_[i*hidden_count_ + j];
-		}
-	}
-	SoftMax();
-	*/
 	for (int k = 0; k < neurons_.size() - 1; k++)
 	{
 		#pragma omp parallel for
@@ -255,58 +191,6 @@ void FCNeuralNet::CalculateDeltas(int output_class)
 
 void FCNeuralNet::BackPropogation(int output_class)
 {
-	/*
-	double tmp;
-	double tmp1;
-	#pragma omp parallel for private(tmp,tmp1)
-	for (int i = 1; i < hidden_count_; i++)
-	{
-		switch (activation_function_)
-		{
-		case SIGMOID:
-			tmp = hidden_neurons_[i] * (1.0 - hidden_neurons_[i]) * learning_rate_;
-			break;
-		case HYPERBOLIC_TANGENT:
-			tmp = (1.0 + hidden_neurons_[i]) * (1.0 - hidden_neurons_[i]) * learning_rate_;
-			break;
-		}
-		for (int j = 0; j < input_count_; j++)
-		{
-			//tmp = tmp*input_neurons_[j]*learning_rate_;
-			tmp1 = tmp * input_neurons_[j];
-			for (int l = 0; l < output_count_; l++)
-			{
-				if (l == output_class)
-				{
-					//first_weights_[(i - 1)*input_count_ + j] += (1.0 - output_neurons_[l])*second_weights_[l*hidden_count_ + i]*tmp;
-					first_weights_[(i - 1)*input_count_ + j] += (1.0 - output_neurons_[l])*second_weights_[l*hidden_count_ + i] * tmp1;
-				}
-				else
-				{
-					//first_weights_[(i - 1)*input_count_ + j] += (-output_neurons_[l])*second_weights_[l*hidden_count_ + i]*tmp;
-					first_weights_[(i - 1)*input_count_ + j] += (-output_neurons_[l])*second_weights_[l*hidden_count_ + i] * tmp1;
-				}
-				
-			}
-		}
-	}
-	#pragma omp parallel for private(tmp)
-	for (int i = 0; i < output_count_; i++)
-	{
-		if (output_class == i)
-		{
-			tmp = (1.0 - output_neurons_[i])*learning_rate_;
-		}
-		else
-		{
-			tmp = (-output_neurons_[i])*learning_rate_;
-		}
-		for (int j = 0; j < hidden_count_; j++)
-		{
-			second_weights_[i*hidden_count_ + j] += tmp*hidden_neurons_[j];		
-		}
-	}
-	*/
 	CalculateDeltas(output_class);
 	for (int k = 0; k < weights_.size(); k++)
 	{

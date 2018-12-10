@@ -16,25 +16,16 @@ enum ACTIVATION_FUNCTION_TYPE
 public:
 	FCNeuralNet();
 	FCNeuralNet(vector<int> neurons_count, vector<int> activation_functions, int epochs_count, double learning_rate);
-	//FCNeuralNet(int input_count, vector<int> hidden_count, int output_count, vector<int> activation_functions, int epochs_count, double learning_rate);
 	~FCNeuralNet();
 	double Fit(Dataset* dataset);
 	double GetTestAccuracy();
 private:
-	//int input_count_;
-	//vector<int> neurons_count_;
-	//int output_count_;
 	int epochs_count_;
 	double learning_rate_;
 	vector<vector<double>> neurons_;
 	vector<vector<double>> weights_;
 	vector<vector<double>> free_weights_;
 	vector<vector<double>> deltas_;
-	//vector<double> input_neurons_;
-	//vector<double> hidden_neurons_;
-	//vector<double> output_neurons_;
-	//vector<double> first_weights_;
-	//vector<double> second_weights_;
 	vector<ACTIVATION_FUNCTION_TYPE> activation_functions_;
 
 	double test_cross_entropy_;
