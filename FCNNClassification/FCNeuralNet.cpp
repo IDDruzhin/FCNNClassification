@@ -63,6 +63,20 @@ double FCNeuralNet::GetTestAccuracy()
 	return test_accuracy_;
 }
 
+int FCNeuralNet::Predict(vector<ubyte> sample)
+{
+	SingleSampleCalculation(sample);
+	auto output_pos = max_element(neurons_.back().begin(), neurons_.back().end());
+	return distance(neurons_.back().begin(), output_pos);
+	/*
+	SingleSampleCalculation(sample);
+	for (int i = 0; i < neurons_.back().size(); i++)
+	{
+		cout << i << "/" << neurons_.back()[i] << " ";
+	}
+	*/
+}
+
 void FCNeuralNet::InitWeights()
 {
 	#pragma omp parallel for

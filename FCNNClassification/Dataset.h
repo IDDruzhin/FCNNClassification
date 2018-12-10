@@ -24,6 +24,7 @@ public:
 	vector<ubyte>& GetTestOutputs();
 	vector<int>& GetIndexes();
 	void Shuffle();
+	virtual vector<ubyte> LoadSample(string sample_path);
 protected:
 	bool loaded_;
 	int input_size_;

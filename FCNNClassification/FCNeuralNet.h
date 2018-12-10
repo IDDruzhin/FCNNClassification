@@ -19,6 +19,7 @@ public:
 	~FCNeuralNet();
 	double Fit(Dataset* dataset);
 	double GetTestAccuracy();
+	int Predict(vector<ubyte> sample);
 private:
 	int epochs_count_;
 	double learning_rate_;

@@ -60,3 +60,8 @@ void Dataset::Shuffle()
 {
 	random_shuffle(indexes_.begin(), indexes_.end());
 }
+
+vector<ubyte> Dataset::LoadSample(string sample_path)
+{
+	return vector<ubyte>();
+}
