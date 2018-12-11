@@ -13,7 +13,7 @@ class Dataset
 {
 public:
 	Dataset();
-	Dataset(string train_input_path, string train_output_path, string test_input_path, string test_output_path, int output_size);
+	Dataset(string train_input_path, string train_output_path, string test_input_path, string test_output_path);
 	virtual ~Dataset() = 0;
 	int GetInputSize();
 	int GetOutputSize();

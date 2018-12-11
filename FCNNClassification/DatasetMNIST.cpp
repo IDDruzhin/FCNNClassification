@@ -2,9 +2,15 @@
 #include "DatasetMNIST.h"
 
 
-DatasetMNIST::DatasetMNIST(string train_input_path, string train_output_path, string test_input_path, string test_output_path, int output_size)
+DatasetMNIST::DatasetMNIST()
 {
-	output_size_ = output_size;
+	input_size_ = 28 * 28;
+	output_size_ = 10;
+}
+
+DatasetMNIST::DatasetMNIST(string train_input_path, string train_output_path, string test_input_path, string test_output_path)
+{
+	output_size_ = 10;
 	ifstream f;
 	int tmp;
 	int size;

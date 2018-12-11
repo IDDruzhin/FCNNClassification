@@ -43,6 +43,11 @@ FCNeuralNet::~FCNeuralNet()
 
 double FCNeuralNet::Fit(Dataset* dataset)
 {
+	if (dataset->GetInputSize() != neurons_.front().size() || dataset->GetOutputSize() != neurons_.back().size())
+	{
+		cout << "Error! Sizes don`t match." << endl;
+		return -1.0;
+	}
 	for (int i = 0; i < epochs_count_; i++)
 	{
 		cout << "Epoch #" << i << endl;
@@ -63,6 +68,7 @@ int FCNeuralNet::Predict(vector<ubyte> sample)
 {
 	if (sample.size() != neurons_[0].size())
 	{
+		cout << "Error! Invalid data sample." << endl;
 		return -1;
 	}
 	SingleSampleCalculation(sample);
